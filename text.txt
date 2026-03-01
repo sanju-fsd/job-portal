@@ -1,0 +1,48 @@
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWM3ODU3M2VmZDllMmNmNGU0ZDU2NyIsImlhdCI6MTc3MTg2MjEwMywiZXhwIjoxNzcyNDY2OTAzfQ.oyrP2N0ff6dc4XSpvGthPR5U8Vqk4BvnTOJ3Sypn4ZI",
+  "user": {
+    "name": "Test User 232",
+    "email": "test123@mail.com",
+    "password": "$2b$10$qN4xrRjhJOGkeLrEqIirVewKgMH3YbkGKOFLS/hGEGL2uyZHBQeTy",
+    "role": "candidate",
+    "_id": "699c78573efd9e2cf4e4d567",
+    "createdAt": "2026-02-23T15:55:03.850Z",
+    "updatedAt": "2026-02-23T15:55:03.850Z",
+    "__v": 0
+  }
+}
+$2b$10$qN4xrRjhJOGkeLrEqIirVewKgMH3YbkGKOFLS/hGEGL2uyZHBQeTy
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWM4MDI0YWJhNjVhMjM0YjYyNGZlZSIsImlhdCI6MTc3MTg2NDEwNiwiZXhwIjoxNzcyNDY4OTA2fQ.DbwqqgOupwHkwrq4fFwwtbqOqLN9OvVYlgdnqZvEk7w
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWM4Mjc1YWJhNjVhMjM0YjYyNGZmOCIsImlhdCI6MTc3MTg2NDczOCwiZXhwIjoxNzcyNDY5NTM4fQ.vcHQPesPvCU3QcDEnvgDOQQUwXhnv8wXs02EeU9UBS0
+
+{
+  "_id": "699c8275aba65a234b624ff8",
+  "name": "Sanju",
+  "email": "sanju@mail.com",
+  "role": "candidate",
+  "createdAt": "2026-02-23T16:38:13.535Z",
+  "updatedAt": "2026-02-23T16:38:13.535Z",
+  "__v": 0
+}
+
+699c818aaba65a234b624ff3
+
+{
+  
+  "title": "Developer",
+  "description": "React developer needed",
+  "company": "Google",
+  "location": "Remote",
+  "salary": "120000",
+  "jobType": "Full-time",
+  "requirements": [],
+  "createdAt": {
+    "$date": "2026-02-23T16:34:18.739Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-23T16:34:18.739Z"
+  },
+  "__v": 0
+}

@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-display:"Poppins", sans-serif;
+  --breakpoint-3xl: 1920px;
+  --color-primary: #08a7f3;
+
+}
+@layer base {
+  html {
+    font-family: var(--font-display);
+  }
+  body {
+    background-color: #f7fafe;
+    overflow-x: hidden;
+  }
+}
+
+@layer components{
+  .header-link{
+   @apply text-gray-600 hover:text-gray-900 transition-colors font-medium;
+  }
+  .logo{
+    @apply w-8 h-8 bg-gradient-to-r from-green-600 to-purple-600 rounded-lg flex items-center justify-center
+  }
+  .auth-button{
+    @apply flex items-center space-x-3 
+  }
+  .auth-button a{
+    @apply bg-gradient-to-r from-green-600 to-purple-600 rounded-lg text-white px-6 py-2 font-medium
+  }
+  .motion-h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight pt-10
+  }
+  .motion-p {
+    @apply text-xl md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed
+  }
+  .motion-div {
+    @apply flex flex-col sm:flex-row gap-4 justify-center items-center mb-16
+  }
+  .motion-btn {
+    @apply  bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gradient-to-r from-blue-700 to-purple-800 transition-colors duration-300 shadow-lg hover:shadow-2xl flex items-center space-x-2
+  }
+  .motion-btn_1 {
+   @apply bg-white border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md
+  }
+  .motion-div_1 {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto
+  }
+  .motion-div_2 {
+    @apply flex flex-col items-center space-y-2 p-4 rounded-xl hover:bg-gray-50 transition-colors
+  }
+  .input {
+  @apply w-full border rounded-lg px-3 py-2;
+}
+}
