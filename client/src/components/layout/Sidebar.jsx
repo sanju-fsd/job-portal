@@ -53,7 +53,7 @@ export default function Sidebar({ role }) {
       <div className="h-20 w-20 rounded-full border-2 border-blue-500 overflow-hidden flex items-center justify-center bg-gray-100">
         {user?.profileImageUrl ? (
           <img
-            src={`http://localhost:5000${user.profileImageUrl}`}
+            src={`https://job-portal-1hxq.onrender.com${user.profileImageUrl}`}
             alt="profile"
             className="w-full h-full object-cover"
           />

@@ -49,7 +49,7 @@ const EmployerProfilePage = () => {
     });
 
     if (user.profileImageUrl) {
-      setPreview(`http://localhost:5000${user.profileImageUrl}`);
+      setPreview(`https://job-portal-1hxq.onrender.com${user.profileImageUrl}`);
     }
   }, [user]);
 
