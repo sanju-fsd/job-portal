@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+data.html
+job_jobs
+job_user1
+text.txt
