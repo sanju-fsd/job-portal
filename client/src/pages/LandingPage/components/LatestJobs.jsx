@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import JobCard from "../../../components/cards/JobCard";
-import Loader from "../../../components/cards/Loader";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { LayoutGrid, List } from "lucide-react";
 
@@ -74,14 +72,18 @@ const LatestJobs = () => {
         }
       >
         {jobs.slice(0, 4).map((job) => (
-          <JobCard key={job._id} job={job} view={view} />
+          <JobCard
+            key={job._id}
+            job={job}
+            onView={() => navigate(`/jobs/${job._id}`)}
+          />
         ))}
       </div>
 
       {/* Load More */}
       <div className="text-center mt-12">
         <button
-          onClick={() => navigate("/all-jobs")}
+          onClick={() => navigate("/jobs")}
           className="bg-green-600 text-white px-8 py-3 rounded-md hover:bg-green-700"
         >
           Load More Listing

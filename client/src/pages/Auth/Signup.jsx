@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   User,
   Mail,
@@ -12,63 +11,38 @@ import {
   Loader,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "../utils/axiosInstance";
-import { API_PATHS } from "../utils/apiPaths";
 import { useAuth } from "../../context/AuthContext";
+import useAuthForm from "./useAuthForm";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const { login, register } = useAuth();
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "candidate",
-  });
-
-  const [showPass, setShowPass] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const change = (e) => {
-    setError("");
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const {
+    form,
+    showPass,
+    setShowPass,
+    error,
+    success,
+    loading,
+    change,
+    setRole,
+    submitSignup,
+  } = useAuthForm({ login, register, navigate });
 
   const submit = async (e) => {
-  e.preventDefault();
-  setError("");
-
-  if (!form.name || !form.email || !form.password) {
-    return setError("Please fill all fields");
-  }
-
-  try {
-    setLoading(true);
-
-    await register(form); // send JSON
-
-    setSuccess("Account created successfully ");
-    setTimeout(() => navigate("/login"), 1200);
-
-  } catch (err) {
-    setError(err.response?.data?.message || "Signup failed");
-  } finally {
-    setLoading(false);
-  }
-};
+    e.preventDefault();
+    await submitSignup();
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 pt-24">
       <form
         onSubmit={submit}
         className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md space-y-5"
       >
         <h2 className="text-2xl font-bold text-center">Create Account</h2>
 
-        {/* Alerts */}
         {error && (
           <div className="flex gap-2 text-red-600 bg-red-50 p-2 rounded-lg text-sm">
             <AlertCircle size={18} /> {error}
@@ -81,7 +55,6 @@ export default function Signup() {
           </div>
         )}
 
-        {/* Name */}
         <div className="relative">
           <User className="absolute left-3 top-3.5 text-gray-400" size={18} />
           <input
@@ -92,7 +65,6 @@ export default function Signup() {
           />
         </div>
 
-        {/* Email */}
         <div className="relative">
           <Mail className="absolute left-3 top-3.5 text-gray-400" size={18} />
           <input
@@ -103,7 +75,6 @@ export default function Signup() {
           />
         </div>
 
-        {/* Password */}
         <div className="relative">
           <Lock className="absolute left-3 top-3.5 text-gray-400" size={18} />
           <input
@@ -122,23 +93,21 @@ export default function Signup() {
           </button>
         </div>
 
-        {/* Role */}
         <div className="grid grid-cols-2 gap-3">
           <RoleBtn
             active={form.role === "candidate"}
             icon={<UserCheck size={18} />}
             label="Candidate"
-            onClick={() => setForm({ ...form, role: "candidate" })}
+            onClick={() => setRole("candidate")}
           />
           <RoleBtn
             active={form.role === "employer"}
             icon={<Building2 size={18} />}
             label="Employer"
-            onClick={() => setForm({ ...form, role: "employer" })}
+            onClick={() => setRole("employer")}
           />
         </div>
 
-        {/* Submit */}
         <button className="w-full bg-blue-600 text-white py-3 rounded-lg flex justify-center gap-2">
           {loading ? <Loader className="animate-spin" size={18} /> : "Sign Up"}
         </button>
@@ -157,7 +126,6 @@ export default function Signup() {
   );
 }
 
-/* Role Button */
 function RoleBtn({ icon, label, active, onClick }) {
   return (
     <button

@@ -8,7 +8,7 @@ router.get("/my", protect, employerOnly, ctrl.getMyJobs);
 
 // Public routes
 router.get("/", ctrl.getAllJobs);
-// router.get("/alljobs", ctrl.getAllJobs);
+router.get("/employer/:employerId", ctrl.getJobsByEmployer);
 router.get("/:id", ctrl.getJob);
 
 // router.get("/all", async (req, res) => {

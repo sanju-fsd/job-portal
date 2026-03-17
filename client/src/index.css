@@ -53,6 +53,13 @@
     @apply flex flex-col items-center space-y-2 p-4 rounded-xl hover:bg-gray-50 transition-colors
   }
   .input {
-  @apply w-full border rounded-lg px-3 py-2;
+  @apply w-full border border-gray-200 rounded-lg px-3 py-2 ;
+}
+.input_field-jobs {
+  @apply w-full border border-gray-200 rounded-lg pl-10 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200
+}
+
+.focus_field {
+  @apply focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-200
 }
 }

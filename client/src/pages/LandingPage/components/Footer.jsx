@@ -19,8 +19,8 @@ const Footer = () => {
         <div>
           <h4 className="text-white font-semibold mb-3">For Candidates</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/all-jobs" className="hover:text-white">Browse Jobs</Link></li>
-            <li><Link to="/candidate" className="hover:text-white">Dashboard</Link></li>
+            <li><Link to="/jobs" className="hover:text-white">Browse Jobs</Link></li>
+            <li><Link to="/candidate/dashboard" className="hover:text-white">Dashboard</Link></li>
             <li className="hover:text-white cursor-pointer">Job Alerts</li>
           </ul>
         </div>
@@ -29,8 +29,8 @@ const Footer = () => {
         <div>
           <h4 className="text-white font-semibold mb-3">For Employers</h4>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/employer" className="hover:text-white">Dashboard</Link></li>
-            <li className="hover:text-white cursor-pointer">Submit Job</li>
+            <li><Link to="/employer/dashboard" className="hover:text-white">Dashboard</Link></li>
+            <li><Link to="/employer/jobs/new" className="hover:text-white">Submit Job</Link></li>
           </ul>
         </div>
 
@@ -70,4 +70,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

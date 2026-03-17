@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Mail,
   Lock,
@@ -11,85 +10,46 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import useAuthForm from "./useAuthForm";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, register } = useAuth();
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [showPass, setShowPass] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const handleChange = (e) => {
-    setError("");
-    setSuccess("");
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const {
+    showPass,
+    setShowPass,
+    loading,
+    error,
+    success,
+    change,
+    submitLogin,
+  } = useAuthForm({ login, register, navigate });
 
   const submit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
-    if (!form.email || !form.password) {
-      return setError("All fields are required");
-    }
-
-    try {
-      setLoading(true);
-
-      const user = await login(form.email, form.password);
-
-      setSuccess("Login successful 🎉");
-
-      setTimeout(() => {
-        if (user.role === "employer") {
-          navigate("/employer-dashboard");
-        } else {
-          navigate("/find-jobs");
-        }
-      }, 800);
-    } catch (err) {
-      setError(err?.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
+    await submitLogin();
   };
 
   return (
-
-     
-
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      
-        
-
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 pt-24">
       <form
         onSubmit={submit}
         className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-5"
       >
-        <div className="mx-auto px-4 bg-block">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div
-            className="flex items-center space-x-3 cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <Briefcase className="w-5 h-5 text-white" />
+        <div className="mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              <div className="bg-blue-600 p-2 rounded-lg">
+                <Briefcase className="w-5 h-5 text-white" />
+              </div>
             </div>
           </div>
-          </div>
-            <span className="text-black text-xl text-center font-bold">Welcome Back</span>
-      </div>
-
-        <h2 className="text-2xl font-bold text-center"></h2>
+          <span className="text-black text-xl text-center font-bold">Welcome Back</span>
+        </div>
 
         {error && (
           <div className="flex items-center gap-2 bg-red-50 text-red-600 px-3 py-2 rounded-lg text-sm">
@@ -109,7 +69,7 @@ export default function Login() {
             name="email"
             placeholder="Email address"
             className="w-full pl-10 pr-3 py-3 border rounded-lg"
-            onChange={handleChange}
+            onChange={change}
           />
         </div>
 
@@ -120,7 +80,7 @@ export default function Login() {
             name="password"
             placeholder="Password"
             className="w-full pl-10 pr-10 py-3 border rounded-lg"
-            onChange={handleChange}
+            onChange={change}
           />
           <button
             type="button"
@@ -139,7 +99,7 @@ export default function Login() {
         </button>
 
         <p className="text-sm text-center text-gray-500">
-          Don’t have an account?{" "}
+          Don&apos;t have an account?{" "}
           <span
             className="text-blue-600 cursor-pointer"
             onClick={() => navigate("/signup")}

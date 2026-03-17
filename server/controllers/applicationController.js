@@ -1,60 +1,124 @@
 const Application = require("../models/Application");
 const Job = require("../models/Job");
 
-// APPLY
 exports.applyJob = async (req, res) => {
-  const { jobId, coverLetter } = req.body;
+  try {
+    if (req.user.role !== "candidate") {
+      return res.status(403).json({ message: "Candidate only" });
+    }
 
-  const exists = await Application.findOne({
-    job: jobId,
-    applicant: req.user._id,
-  });
+    const { jobId, coverLetter = "" } = req.body;
 
-  if (exists)
-    return res.status(400).json({ message: "Already applied" });
+    if (!jobId) {
+      return res.status(400).json({ message: "jobId is required" });
+    }
 
-  const application = await Application.create({
-    job: jobId,
-    applicant: req.user._id,
-    coverLetter,
-  });
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
 
-  res.status(201).json(application);
+    const exists = await Application.findOne({
+      job: jobId,
+      candidate: req.user.id,
+    });
+
+    if (exists) {
+      return res.status(400).json({ message: "Already applied" });
+    }
+
+    const application = await Application.create({
+      job: jobId,
+      candidate: req.user.id,
+      coverLetter,
+    });
+
+    res.status(201).json(application);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-// VIEW MY APPLICATIONS
 exports.myApplications = async (req, res) => {
-  const apps = await Application.find({ applicant: req.user._id })
-    .populate("job");
+  try {
+    if (req.user.role !== "candidate") {
+      return res.status(403).json({ message: "Candidate only" });
+    }
 
-  res.json(apps);
+    const apps = await Application.find({ candidate: req.user.id })
+      .populate("job")
+      .sort({ createdAt: -1 });
+
+    res.json(apps);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch applications" });
+  }
 };
 
-// EMPLOYER VIEW APPLICATIONS FOR A JOB
 exports.jobApplications = async (req, res) => {
-  const job = await Job.findById(req.params.jobId);
+  try {
+    if (req.user.role !== "employer") {
+      return res.status(403).json({ message: "Employer only" });
+    }
 
-  if (job.employer.toString() !== req.user._id.toString())
-    return res.status(403).json({ message: "Not authorized" });
+    const job = await Job.findById(req.params.jobId);
 
-  const apps = await Application.find({ job: job._id })
-    .populate("applicant", "name email");
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
 
-  res.json(apps);
+    if (job.employer.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    const apps = await Application.find({ job: job._id })
+      .populate("candidate", "name email resumeUrl")
+      .sort({ createdAt: -1 });
+
+    res.json(apps);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch job applications" });
+  }
 };
 
-// UPDATE APPLICATION STATUS
 exports.updateStatus = async (req, res) => {
-  const { status } = req.body;
+  try {
+    if (req.user.role !== "employer") {
+      return res.status(403).json({ message: "Employer only" });
+    }
 
-  const application = await Application.findById(req.params.id)
-    .populate("job");
+    const { status } = req.body;
+    const allowedStatuses = ["pending", "interview", "accepted", "rejected"];
 
-  if (application.job.employer.toString() !== req.user._id.toString())
-    return res.status(403).json({ message: "Not authorized" });
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
 
-  application.status = status;
-  await application.save();
+    // const application = await Application.findById(req.params.id).populate("job");
+    const application = await Application.findByIdAndUpdate(
+        req.params.id,
+        { status },
+        { new: true }
+      )
+      .populate("candidate", "name email location resumeUrl")
+      .populate({
+        path: "job",
+        select: "employer"
+      });
 
-  res.json(application);
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    if (application.job.employer.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // application.status = status;
+    // await application.save();
+
+    res.json(application);
+  } catch (err) {
+    res.status(500).json({ message: "Status update failed" });
+  }
 };

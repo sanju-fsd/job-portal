@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-// TEMP placeholder route
+// Explicit stub contract until analytics endpoints are fully implemented.
 router.get("/", (req, res) => {
-  res.json({ message: "Analytics working" });
+  res.json({
+    enabled: false,
+    message: "Analytics endpoint is mounted but not implemented yet",
+  });
 });
 
 module.exports = router;

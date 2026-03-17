@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const ctrl = require("../controllers/applicationController");
-const { protect } = require("../middlewares/authMiddleware");
+const { protect, candidateOnly, employerOnly } = require("../middlewares/authMiddleware");
 
-router.post("/apply", protect, ctrl.applyJob);
-router.get("/me", protect, ctrl.myApplications);
-router.get("/job/:jobId", protect, ctrl.jobApplications);
-router.put("/:id/status", protect, ctrl.updateStatus);
+router.post("/apply", protect, candidateOnly, ctrl.applyJob);
+router.get("/me", protect, candidateOnly, ctrl.myApplications);
+router.get("/job/:jobId", protect, employerOnly, ctrl.jobApplications);
+router.put("/:id/status", protect, employerOnly, ctrl.updateStatus);
 
 module.exports = router;

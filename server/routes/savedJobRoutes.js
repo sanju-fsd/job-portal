@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const ctrl = require("../controllers/savedJobController");
-const { protect } = require("../middlewares/authMiddleware");
+const { protect, candidateOnly } = require("../middlewares/authMiddleware");
 
-router.post("/:jobId", protect, ctrl.saveJob);
-router.get("/", protect, ctrl.getSavedJobs);
-router.delete("/:jobId", protect, ctrl.removeSaved);
+router.post("/:jobId", protect, candidateOnly, ctrl.saveJob);
+router.get("/", protect, candidateOnly, ctrl.getSavedJobs);
+router.delete("/:jobId", protect, candidateOnly, ctrl.removeSaved);
 
 module.exports = router;
